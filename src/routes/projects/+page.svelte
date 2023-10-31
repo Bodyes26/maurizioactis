@@ -4,7 +4,7 @@
 
     projects.push({
         url: "https://annartworks.it",
-        image: "/images/projects/annart.png",
+        image: "/images/projects/annart1.png",
         title: "Anna.rt",
         description:
             "Anna.rt is a website for a young artist. It's a simple website with a gallery and a contact form.\n It has a backend to manage the gallery and the messages from the contact form.\n It's built with SvelteKit and Pocketbase and hosted on cloudflare pages, and the db is hosted on my server with scheduled backups.",
@@ -12,7 +12,7 @@
     });
     projects.push({
         url: "",
-        image: "/images/projects/olimpiadi.png",
+        image: "/images/projects/olimpiadi1.png",
         title: "Olimpiadi Frass",
         description:
             "I've created this web app to replace a convoluted excel document, to manage the activities of my parish.\n It's built with SvelteKit and TailwindCSS and hosted on my server with scheduled backups. It has all the functions to manage the activities and games of the parish, with point systems and statistics.",
@@ -31,35 +31,26 @@
 
     projects.push({
         url: "https://cn-scwedding.website",
-        image: "/images/projects/cn-scwedding.png",
+        image: "/images/projects/cn-scwedding1.png",
         title: "Wedding website",
         content: null,
         description:
             "A close friend of mine asked me to create a website for it's wedding in Sicily. He wanted something to guide the guests in it's city and a place to collect all the photos and videos of the day. It's made with Svelte and hosted on Cloudflare Pages. It has a backend with Pocketbase to manage images and videos uploads from guests.",
     });
-    projects.push({
-        url: "https://annartworks.it",
-        image: "/images/projects/annart.png",
-        title: "Anna.rt",
-        content: null,
 
-        description:
-            "Anna.rt is a website for a young artist. It's a simple website with a gallery and a contact form.\n It has a backend to manage the gallery and the messages from the contact form.\n It's built with SvelteKit and Pocketbase and hosted on cloudflare pages, and the db is hosted on my server with scheduled backups.",
-    });
     projects.push({
-        url: "https://myapollo.it/my-selfhosted-stuff/",
+        url: "",
         image: "",
-        title: "My homelab",
+        title: "Filepond - Sveltekit",
         content: null,
 
         description:
-            "I strongly believe in owning and protecting as much of my personal data as possible, so I invested some time to learn about self-hosting, and built my home server to host all of my data. you can learn more about my homelab on my blog.",
+            "For the project above I needed a way to upload files to my server, so I created a SvelteKit project for Filepond, a file upload library. It uses SvelteKit server pages to save the file where you want it. It's available on github.",
     });
 </script>
 
 <div class="w-screen min-h-screen p-4">
     <h1 class="text-center text-6xl mt-12">My projects</h1>
-
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-2 lg:gap-8 mt-4">
         {#each projects as project, i}
             <div class="card shadow-lg">
@@ -116,7 +107,11 @@
                         {#if project.image == ""}
                             <div />
                         {:else}
-                            <img src={project.image} alt={project.title} />
+                            <img
+                                src={project.image}
+                                alt={project.title}
+                                class="rounded-lg shadow-lg mb-4"
+                            />
                         {/if}
                     </a>
 
