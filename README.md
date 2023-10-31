@@ -1,22 +1,25 @@
-# create-svelte
+# maurizioactis.it
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+This is the repository for my personal website, https://maurizioactis.it
+It's a personal portfolio with a contact form.
 
-## Creating a project
+## Tecnology stack
 
-If you're seeing this, you've probably already done this step. Congrats!
+-   SvelteKit
+-   TailwindCSS
+-   FormSubmit.co for the contact form
+-   CloudFlare Pages for hosting
+
+## Copy my project
+
+You can copy my project with
 
 ```bash
-# create a new project in the current directory
-npm create svelte@latest
+git clone https://github.com/Bodyes26/maurizioactis.git
 
-# create a new project in my-app
-npm create svelte@latest my-app
 ```
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+And start the dev server with
 
 ```bash
 npm run dev
@@ -25,14 +28,12 @@ npm run dev
 npm run dev -- --open
 ```
 
-## Building
+## Build
 
-To create a production version of your app:
+To create the production version:
 
 ```bash
 npm run build
 ```
 
 You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
