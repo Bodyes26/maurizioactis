@@ -17,41 +17,75 @@
             people use.
         </p>
     </div>
-    <h2 class="titleProjects">My projects</h2>
+
+    <h2 class=" mt-32 text-center mb-16 text-5xl font-bold">
+        My latest projects
+    </h2>
     <div class="projects">
         <div id="satellite1" />
         <div id="satellite2" />
-        <div class="card div1">
-            <div class="simpleTitle">My homelab</div>
-            <p>
-                I strongly believe in self hosting as much services as possible,
-                also this website is hosted on my server at home! you can learn
-                more about my homelab <a
-                    href="https://myapollo.it/my-selfhosted-stuff/">here</a
-                >.
-            </p>
-        </div>
-        <div style="display: flex; flex-direction:column; gap:1rem;">
-            <div class="card div2">
-                <a href="https://cn-scwedding.website" class="simpleTitle"
-                    >Wedding website</a
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-md">
+            <div
+                class="text-base rounded-3xl p-8 relative bg-white bg-opacity-30 row-span-2"
+            >
+                <div class="text-2xl text-gray-900">My homelab</div>
+                <p>
+                    I strongly believe in self hosting as much services as
+                    possible, also this website is hosted on my server at home!
+                    you can learn more about my homelab <a
+                        href="https://myapollo.it/my-selfhosted-stuff/">here</a
+                    >.
+                </p>
+            </div>
+            <div
+                class="text-base rounded-3xl p-8 relative bg-white bg-opacity-30"
+            >
+                <a
+                    href="https://cn-scwedding.website"
+                    class="no-underline text-2xl text-gray-900 leading-7"
                 >
+                    Wedding website
+                </a>
                 <p>
                     A close friend of mine asked me to create a website for it's
                     wedding in Sicily, so there it is.
                 </p>
             </div>
-            <div class="card div3">
-                <a href="https://myapollo.it" class="simpleTitle">myapollo.it</a
+            <div
+                class="text-base rounded-3xl p-8 relative bg-white bg-opacity-30"
+            >
+                <a
+                    href="https://myapollo.it"
+                    class="no-underline text-2xl text-gray-900">myapollo.it</a
                 >
                 <p>Personal blog, I talk about anything crosses my mind.</p>
             </div>
+            <a
+                class="link text-2xl text-gray-900 rounded-3xl p-8 relative bg-white bg-opacity-30 col-span-2 text-center flex justify-center gap-2"
+                href="/projects"
+            >
+                <span>Check all of my projects here</span>
+                <svg
+                    width="24px"
+                    height="24px"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                >
+                    <path
+                        stroke="#000000"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M4.343 15.657L15.657 4.343m0 0v9.9m0-9.9h-9.9"
+                    />
+                </svg>
+            </a>
         </div>
-        <a class="card" href="/projects">Check all of my projects here</a>
     </div>
 
     <div class="contact">
-        <h1>Contact me</h1>
+        <h1 class="text-3xl text-center font-semibold">Contact me</h1>
         <form
             action="https://formsubmit.co/5f02f38c408f6b38a132b44e9174296f"
             method="POST"
@@ -67,29 +101,37 @@
                 name="_next"
                 value="https://maurizioactis.it/thanks.html"
             />
-            <div style="display: flex; gap:1rem">
-                <div class="input-group">
-                    <!-- svelte-ignore a11y-label-has-associated-control -->
-                    <label class="label">Your name</label>
-                    <input name="name" id="name" class="input" type="name" />
+            <div class="flex gap-4">
+                <div class="groupInput">
+                    <label class="testoInput" for="name">Your name</label>
+                    <input
+                        name="name"
+                        id="name"
+                        class="campoInput"
+                        type="name"
+                    />
                     <div />
                 </div>
-                <div class="input-group">
-                    <!-- svelte-ignore a11y-label-has-associated-control -->
-                    <label class="label">Email address</label>
-                    <input name="Email" id="Email" class="input" type="email" />
+                <div class="groupInput">
+                    <label class="testoInput" for="Email">Email address</label>
+                    <input
+                        name="Email"
+                        id="Email"
+                        class="campoInput"
+                        type="email"
+                    />
                     <div />
                 </div>
             </div>
-            <div class="input-group">
-                <!-- svelte-ignore a11y-label-has-associated-control -->
-                <label class="label">Your messagge</label>
+            <div class="groupInput">
+                <label class="testoInput" for="messsage">Your messagge</label>
                 <textarea
                     name="message"
+                    id="message"
                     required
-                    class="input"
+                    class="campoInput"
                     rows="3"
-                    style="width: calc(100% - 2.22rem);"
+                    style="width: 100%;"
                 />
                 <div />
             </div>
@@ -115,7 +157,7 @@
         </form>
     </div>
     <div class="footer">
-        <p>Made and hosted with ❤️ in 🇮🇹</p>
+        <p>Made with ❤️ in 🇮🇹</p>
         <p>Maurizio Actis ©️ 2023</p>
     </div>
 
@@ -187,7 +229,7 @@
         margin-top: 4rem;
     }
 
-    .input {
+    .campoInput {
         height: 44px;
         background-color: #05060f0a;
         border-radius: 0.5rem;
@@ -199,7 +241,7 @@
             background 0.2s cubic-bezier(0.25, 0.01, 0.25, 1) 0s;
     }
 
-    .label {
+    .testoInput {
         display: block;
         margin-bottom: 0.3rem;
         font-size: 0.9rem;
@@ -208,19 +250,19 @@
         transition: color 0.3s cubic-bezier(0.25, 0.01, 0.25, 1) 0s;
     }
 
-    .input:hover,
-    .input:focus,
-    .input-group:hover .input {
+    .campoInput:hover,
+    .campoInput:focus,
+    .groupInput:hover .campoInput {
         outline: none;
         border-color: #05060f;
     }
 
-    .input-group:hover .label,
-    .input:focus {
+    .groupInput:hover .testoInput,
+    .campoInput:focus {
         color: #05060fc2;
     }
 
-    .input-group {
+    .groupInput {
         margin-top: 0.5rem;
     }
 
@@ -329,7 +371,8 @@
 
     .title {
         text-align: center;
-        font-size: clamp(1rem, 9dvw, 5rem);
+        font-size: clamp(1rem, 10dvw, 8rem);
+        font-weight: 600;
         margin-top: 30dvh;
         position: relative;
         max-height: 40dvh;
@@ -363,40 +406,5 @@
         justify-content: center;
         gap: 1rem;
         flex-wrap: wrap;
-    }
-
-    .titleProjects {
-        margin-top: 8rem;
-        text-align: center;
-        margin-bottom: 4rem;
-        font-size: 44px;
-        font-weight: 600;
-    }
-
-    .div1 {
-        width: 11.875rem;
-    }
-    .div2 {
-        width: 11.875rem;
-        height: 11.875rem;
-    }
-    .div3 {
-        width: 11.875rem;
-        height: 11.875rem;
-    }
-
-    .card {
-        font-size: 16px;
-        border-radius: 24px;
-        padding: 2rem;
-        background: rgba(236, 236, 236, 0.5);
-        position: relative;
-    }
-
-    .simpleTitle {
-        color: #464646;
-        text-decoration: none;
-        font-weight: 500;
-        font-size: 28px;
     }
 </style>
