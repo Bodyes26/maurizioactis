@@ -10,6 +10,7 @@
             "Anna.rt is a website for a young artist. It's a simple website with a gallery and a contact form.\n It has a backend to manage the gallery and the messages from the contact form.\n It's built with SvelteKit and Pocketbase and hosted on cloudflare pages, and the db is hosted on my server with scheduled backups.",
         content: null,
     });
+
     projects.push({
         url: "",
         image: "/images/projects/olimpiadi1.png",
@@ -39,7 +40,7 @@
     });
 
     projects.push({
-        url: "",
+        url: "https://github.com/Bodyes26/filepond-sveltekit",
         image: "",
         title: "Filepond - Sveltekit",
         content: null,
