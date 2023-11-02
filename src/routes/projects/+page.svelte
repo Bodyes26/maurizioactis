@@ -104,17 +104,15 @@
                     </div>
                 </div>
                 <div class="card__content" bind:this={project.content}>
-                    <a href={project.url}>
-                        {#if project.image == ""}
-                            <div />
-                        {:else}
-                            <img
-                                src={project.image}
-                                alt={project.title}
-                                class="rounded-lg shadow-lg mb-4"
-                            />
-                        {/if}
-                    </a>
+                    {#if project.image == ""}
+                        <div />
+                    {:else}
+                        <img
+                            src={project.image}
+                            alt={project.title}
+                            class="rounded-lg shadow-lg mb-4"
+                        />
+                    {/if}
 
                     <p>{project.description}</p>
                     <a href={project.url} class="link">{project.url}</a>
