@@ -1,23 +1,49 @@
 <script>
-    import { goto } from "$app/navigation";
-    let projects = [];
-
+    let projects = [],
+        backdrop;
     projects.push({
         url: "https://annartworks.it",
         image: "/images/projects/annart1.png",
+        images: [
+            "/images/projects/annart3.png",
+            "/images/projects/annart2.png",
+            "/images/projects/annart1.png",
+        ],
         title: "Anna.rt",
         description:
             "Anna.rt is a website for a young artist. It's a simple website with a gallery and a contact form.\n It has a backend to manage the gallery and the messages from the contact form.\n It's built with SvelteKit and Pocketbase and hosted on cloudflare pages, and the db is hosted on my server with scheduled backups.",
         content: null,
+        contentFull: null,
+        box: null,
+        height: null,
+        width: null,
+        x: null,
+        y: null,
+        fullscreen: false,
+        fullDescription:
+            "Anna.rt is a website for a young artist. It's a simple website with a gallery and a contact form.\n It has a backend to manage the gallery and the messages from the contact form.\n It's built with SvelteKit and Pocketbase and hosted on cloudflare pages, and the db is hosted on my server with scheduled backups.\n\n\nDevelopment time: about 2 weeks.\n\n\n\nMost difficult part: the admin page, I didn't had a clear vision on how to set it up, so it was a lot of trial to see what worked.",
     });
 
     projects.push({
         url: "",
         image: "/images/projects/olimpiadi1.png",
+        images: [
+            "/images/projects/olimpiadi1.png",
+            "/images/projects/olimpiadi2.png",
+            "/images/projects/olimpiadi3.png",
+            "/images/projects/olimpiadi4.png",
+        ],
         title: "Olimpiadi Frass",
         description:
             "I've created this web app to replace a convoluted excel document, to manage the activities of my parish.\n It's built with SvelteKit and TailwindCSS and hosted on my server with scheduled backups. It has all the functions to manage the activities and games of the parish, with point systems and statistics.",
         content: null,
+        box: null,
+        x: null,
+        contentFull: null,
+        y: null,
+        height: null,
+        width: null,
+        fullscreen: false,
     });
 
     projects.push({
@@ -25,6 +51,13 @@
         image: "",
         title: "My homelab",
         content: null,
+        box: null,
+        x: null,
+        contentFull: null,
+        y: null,
+        height: null,
+        width: null,
+        fullscreen: false,
 
         description:
             "I strongly believe in owning and protecting as much of my personal data as possible, so I invested some time to learn about self-hosting, and built my home server to host all of my data. you can learn more about my homelab on my blog.",
@@ -33,10 +66,21 @@
     projects.push({
         url: "https://cn-scwedding.website",
         image: "/images/projects/cn-scwedding1.png",
+        images: [
+            "/images/projects/cn-scwedding1.png",
+            "/images/projects/cn-scwedding2.png",
+        ],
         title: "Wedding website",
         content: null,
+        box: null,
+        x: null,
+        contentFull: null,
+        y: null,
+        height: null,
+        width: null,
+        fullscreen: false,
         description:
-            "A close friend of mine asked me to create a website for it's wedding in Sicily. He wanted something to guide the guests in it's city and a place to collect all the photos and videos of the day. It's made with Svelte and hosted on Cloudflare Pages. It has a backend with Pocketbase to manage images and videos uploads from guests.",
+            "A close friend of mine asked me to create a website for it's wedding in Sicily. He wanted something to guide the guests in the city and a place to collect all the photos and videos of the day. It's made with Svelte and hosted on Cloudflare Pages. It has a backend with Pocketbase to manage images and videos uploads from guests.",
     });
 
     projects.push({
@@ -44,17 +88,78 @@
         image: "",
         title: "Filepond - Sveltekit",
         content: null,
+        box: null,
+        contentFull: null,
+        x: null,
+        y: null,
+        height: null,
+        width: null,
+        fullscreen: false,
 
         description:
             "For the project above I needed a way to upload files to my server, so I created a SvelteKit project for Filepond, a file upload library. It uses SvelteKit server pages to save the file where you want it. It's available on github.",
     });
+
+    function rimuoviTuttoSchermo() {
+        projects.forEach((project) => {
+            project.box.style.transform = `translate(0px, 0px)`;
+            project.box.style.top = 0 + "px";
+            project.box.style.left = 0 + "px";
+            project.box.classList.remove("fullscreen");
+            project.content.classList.remove("tuttoSchermoContent");
+            backdrop.classList.remove("!opacity-100");
+            backdrop.classList.remove("!z-10");
+        });
+    }
+
+    function toogleFullScreen(project) {
+        if (project.box.classList.contains("fullscreen")) {
+            project.fullscreen = false;
+            project.box.style.transform = `translate(0px, 0px)`;
+            project.box.style.top = 0 + "px";
+            project.box.style.left = 0 + "px";
+            project.box.style.height = project.height + "px";
+            project.box.style.width = project.width + "px";
+            project.box.classList.remove("fullscreen");
+            project.box.classList.remove("!fixed");
+            backdrop.classList.remove("!opacity-100");
+            backdrop.classList.remove("!z-10");
+            project.contentFull.classList.add("!hidden");
+            project.content.classList.remove("!hidden");
+        } else {
+            project.fullscreen = true;
+            const rect = project.box.getBoundingClientRect();
+            console.log(rect);
+            project.box.classList.add("!fixed");
+            project.box.style.top = rect.y + "px";
+            project.box.style.left = rect.x + "px";
+            let finalX = 20 - rect.x;
+            let finalY = 20 - rect.y;
+            let rectHeight = rect.height;
+            let rectWidth = rect.width;
+            project.box.style.height = rectHeight + "px";
+            project.box.style.width = rectWidth + "px";
+            project.x = finalX;
+            project.y = finalY;
+            project.height = rectHeight;
+            project.width = rectWidth;
+            project.content.classList.add("!hidden");
+            project.contentFull.classList.remove("!hidden");
+            setTimeout(() => {
+                project.box.style.transform = `translate(${finalX}px, ${finalY}px)`;
+                project.box.classList.add("fullscreen");
+                backdrop.classList.add("!opacity-100");
+                backdrop.classList.add("!z-10");
+            }, 10);
+        }
+    }
 </script>
 
 <div class="w-screen min-h-screen p-4">
     <h1 class="text-center text-6xl mt-12">My projects</h1>
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-2 lg:gap-8 mt-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-2 lg:gap-8 mt-4">
         {#each projects as project, i}
-            <div class="card shadow-lg">
+            <div class="card shadow-lg" bind:this={project.box}>
                 <div class="tools">
                     <!-- svelte-ignore a11y-click-events-have-key-events -->
                     <div
@@ -86,7 +191,7 @@
                         role="button"
                         tabindex="-1"
                         on:click={() => {
-                            goto(project.url);
+                            toogleFullScreen(project);
                         }}
                     >
                         <span class="green box" />
@@ -113,16 +218,86 @@
                             class="rounded-lg shadow-lg mb-4"
                         />
                     {/if}
-
-                    <p>{project.description}</p>
-                    <a href={project.url} class="link">{project.url}</a>
+                    <div>
+                        <p>{project.description}</p>
+                        <a href={project.url} class="link">{project.url}</a>
+                    </div>
+                </div>
+                <div
+                    class="card__content tuttoSchermoContent !hidden"
+                    bind:this={project.contentFull}
+                >
+                    {#if project.image == ""}
+                        <div />
+                    {:else}
+                        <div class="carousel rounded-box w-full col-span-3">
+                            {#each project.images as image, i}
+                                <div
+                                    class="carousel-item w-full relative"
+                                    id="carousel_{project.title}_{i}"
+                                >
+                                    <img
+                                        src={image}
+                                        alt={project.title}
+                                        class="w-full"
+                                    />
+                                    <div
+                                        class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2"
+                                    >
+                                        {#if i == 0}
+                                            <a
+                                                href="#carousel_{project.title}_{project
+                                                    .images.length - 1}"
+                                                class="btn btn-circle"
+                                            >
+                                                ❮
+                                            </a>
+                                        {:else}
+                                            <a
+                                                href="#carousel_{project.title}_{i -
+                                                    1}"
+                                                class="btn btn-circle"
+                                            >
+                                                ❮
+                                            </a>
+                                        {/if}
+                                        {#if i == project.images.length - 1}
+                                            <a
+                                                href="#carousel_{project.title}_0"
+                                                class="btn btn-circle"
+                                            >
+                                                ❯
+                                            </a>
+                                        {:else}
+                                            <a
+                                                href="#carousel_{project.title}_{i +
+                                                    1}"
+                                                class="btn btn-circle"
+                                            >
+                                                ❯
+                                            </a>
+                                        {/if}
+                                    </div>
+                                </div>
+                            {/each}
+                        </div>
+                    {/if}
+                    <div class="col-span-2">
+                        <p>{project.fullDescription}</p>
+                        <a href={project.url} class="link">{project.url}</a>
+                    </div>
                 </div>
             </div>
         {/each}
     </div>
+    <div class="backdrop" on:click={rimuoviTuttoSchermo} bind:this={backdrop} />
 </div>
 
 <div class="nascondi hidden" />
+<div class="tuttoSchermo hidden" />
+<div class="tuttoSchermoContent hidden" />
+<div class="contenitore hidden" />
+<div class="fullscreen hidden" />
 
 <style>
     .card {
@@ -131,13 +306,40 @@
         background-color: #fbfbfb;
         border-radius: 12px;
         z-index: 1;
+        position: relative;
+        transition: transform 0.3s ease-in-out, z-index 0.3s ease-in-out,
+            width 0.3s ease-in-out, height 0.3s ease-in-out;
     }
+
+    .fullscreen {
+        width: calc(100% - 40px) !important;
+        height: calc(100% - 40px) !important;
+        z-index: 9999;
+    }
+
+    .backdrop {
+        opacity: 0;
+        transition: all 0.5s ease;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.2); /* Opacità */
+        backdrop-filter: blur(10px); /* Sfocatura */
+        z-index: -1; /* Assicurati che sia inferiore a quello di .tuttoSchermo */
+    }
+
+    .tuttoSchermoContent {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        gap: 2rem;
+    }
+
     .card__content {
         padding: 1rem;
-        max-height: 500px;
-        transition: max-height 0.5s ease, padding 0.5s ease;
-        overflow: hidden;
+        height: fit-content;
         display: grid;
+        transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
     }
 
     .tools {
