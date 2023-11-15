@@ -1,13 +1,17 @@
 <script>
+    import IconaArrowLeft from "../lib/iconaArrowLeft.svelte";
+    import IconaArrowRight from "../lib/iconaArrowRight.svelte";
+
     let projects = [],
         backdrop;
+    $: projects;
     projects.push({
         url: "https://annartworks.it",
         image: "/images/projects/annart1.png",
         images: [
-            "/images/projects/annart3.png",
-            "/images/projects/annart2.png",
             "/images/projects/annart1.png",
+            "/images/projects/annart2.png",
+            "/images/projects/annart3.png",
         ],
         title: "Anna.rt",
         description:
@@ -102,17 +106,30 @@
 
     function rimuoviTuttoSchermo() {
         projects.forEach((project) => {
+            project.fullscreen = false;
             project.box.style.transform = `translate(0px, 0px)`;
             project.box.style.top = 0 + "px";
             project.box.style.left = 0 + "px";
+            project.box.style.height = project.height + "px";
+            project.box.style.width = project.width + "px";
             project.box.classList.remove("fullscreen");
-            project.content.classList.remove("tuttoSchermoContent");
+            project.box.classList.remove("!fixed");
             backdrop.classList.remove("!opacity-100");
             backdrop.classList.remove("!z-10");
+            project.contentFull.classList.add("!hidden");
+            project.content.classList.remove("!hidden");
+            setTimeout(() => {
+                project.box.style.transform = "";
+                project.box.style.top = "";
+                project.box.style.left = "";
+                project.box.style.width = "";
+                project.box.style.height = "";
+            }, 50);
         });
     }
 
     function toogleFullScreen(project) {
+        console.log("toogleFullScreen per progetto", project.title);
         if (project.box.classList.contains("fullscreen")) {
             project.fullscreen = false;
             project.box.style.transform = `translate(0px, 0px)`;
@@ -126,6 +143,13 @@
             backdrop.classList.remove("!z-10");
             project.contentFull.classList.add("!hidden");
             project.content.classList.remove("!hidden");
+            setTimeout(() => {
+                project.box.style.transform = "";
+                project.box.style.top = "";
+                project.box.style.left = "";
+                project.box.style.width = "";
+                project.box.style.height = "";
+            }, 50);
         } else {
             project.fullscreen = true;
             const rect = project.box.getBoundingClientRect();
@@ -139,8 +163,6 @@
             let rectWidth = rect.width;
             project.box.style.height = rectHeight + "px";
             project.box.style.width = rectWidth + "px";
-            project.x = finalX;
-            project.y = finalY;
             project.height = rectHeight;
             project.width = rectWidth;
             project.content.classList.add("!hidden");
@@ -153,12 +175,27 @@
             }, 10);
         }
     }
+
+    function removeFromList(project) {
+        if (project.fullscreen) {
+            toogleFullScreen(project);
+        }
+        const i = projects.indexOf(project);
+        let temp = [];
+        for (let index = 0; index < projects.length; index++) {
+            const project = projects[index];
+            if (index != i) {
+                temp = [...temp, project];
+            }
+        }
+        projects = temp;
+    }
 </script>
 
 <div class="w-screen min-h-screen p-4">
     <h1 class="text-center text-6xl mt-12">My projects</h1>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-2 lg:gap-8 mt-4">
-        {#each projects as project, i}
+        {#each projects as project}
             <div class="card shadow-lg" bind:this={project.box}>
                 <div class="tools">
                     <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -167,9 +204,7 @@
                         tabindex="-1"
                         class="circle"
                         on:click={() => {
-                            projects = projects.filter(
-                                (p, index) => index != i
-                            );
+                            removeFromList(project);
                         }}
                     >
                         <span class="red box" />
@@ -248,33 +283,33 @@
                                             <a
                                                 href="#carousel_{project.title}_{project
                                                     .images.length - 1}"
-                                                class="btn btn-circle"
+                                                class="btn btn-circle glass"
                                             >
-                                                ❮
+                                                <IconaArrowLeft />
                                             </a>
                                         {:else}
                                             <a
                                                 href="#carousel_{project.title}_{i -
                                                     1}"
-                                                class="btn btn-circle"
+                                                class="btn btn-circle glass"
                                             >
-                                                ❮
+                                                <IconaArrowLeft />
                                             </a>
                                         {/if}
                                         {#if i == project.images.length - 1}
                                             <a
                                                 href="#carousel_{project.title}_0"
-                                                class="btn btn-circle"
+                                                class="btn btn-circle glass"
                                             >
-                                                ❯
+                                                <IconaArrowRight />
                                             </a>
                                         {:else}
                                             <a
                                                 href="#carousel_{project.title}_{i +
                                                     1}"
-                                                class="btn btn-circle"
+                                                class="btn btn-circle glass"
                                             >
-                                                ❯
+                                                <IconaArrowRight />
                                             </a>
                                         {/if}
                                     </div>
@@ -290,13 +325,14 @@
             </div>
         {/each}
     </div>
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div class="backdrop" on:click={rimuoviTuttoSchermo} bind:this={backdrop} />
 </div>
 
 <div class="nascondi hidden" />
 <div class="tuttoSchermo hidden" />
 <div class="tuttoSchermoContent hidden" />
-<div class="contenitore hidden" />
 <div class="fullscreen hidden" />
 
 <style>
@@ -305,10 +341,13 @@
         margin: 0 auto 1rem auto;
         background-color: #fbfbfb;
         border-radius: 12px;
+        max-height: 4096px;
         z-index: 1;
+        overflow: hidden;
         position: relative;
         transition: transform 0.3s ease-in-out, z-index 0.3s ease-in-out,
-            width 0.3s ease-in-out, height 0.3s ease-in-out;
+            width 0.3s ease-in-out, height 0.3s ease-in-out,
+            max-height 0.3s ease-in-out;
     }
 
     .fullscreen {
