@@ -1,10 +1,37 @@
 <script>
     import IconaArrowLeft from "../lib/iconaArrowLeft.svelte";
     import IconaArrowRight from "../lib/iconaArrowRight.svelte";
+    import { setupViewTransition } from "sveltekit-view-transition";
+
+    const { transition } = setupViewTransition();
 
     let projects = [],
         backdrop;
     $: projects;
+
+    let project = {
+        id: "0",
+        url: "https://annartworks.it",
+        image: "/images/projects/annart1.png",
+        images: [
+            "/images/projects/annart1.png",
+            "/images/projects/annart2.png",
+            "/images/projects/annart3.png",
+        ],
+        title: "Anna.rt",
+        description:
+            "Anna.rt is a website for a young artist. It's a simple website with a gallery and a contact form.\n It has a backend to manage the gallery and the messages from the contact form.\n It's built with SvelteKit and Pocketbase and hosted on cloudflare pages, and the db is hosted on my server with scheduled backups.",
+        content: null,
+        contentFull: null,
+        box: null,
+        height: null,
+        width: null,
+        x: null,
+        y: null,
+        fullscreen: false,
+        fullDescription:
+            "Anna.rt is a website for a young artist. It's a simple website with a gallery and a contact form.\n It has a backend to manage the gallery and the messages from the contact form.\n It's built with SvelteKit and Pocketbase and hosted on cloudflare pages, and the db is hosted on my server with scheduled backups.\n\n\nDevelopment time: about 2 weeks.\n\n\n\nMost difficult part: the admin page, I didn't had a clear vision on how to set it up, so it was a lot of trial to see what worked.",
+    };
     projects.push({
         url: "https://annartworks.it",
         image: "/images/projects/annart1.png",
@@ -195,135 +222,128 @@
 <div class="w-screen min-h-screen p-4">
     <h1 class="text-center text-6xl mt-12">My projects</h1>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-2 lg:gap-8 mt-4">
-        {#each projects as project}
-            <div class="card shadow-lg" bind:this={project.box}>
-                <div class="tools">
-                    <!-- svelte-ignore a11y-click-events-have-key-events -->
-                    <div
-                        role="button"
-                        tabindex="-1"
-                        class="circle"
-                        on:click={() => {
-                            removeFromList(project);
-                        }}
-                    >
-                        <span class="red box" />
-                    </div>
-                    <!-- svelte-ignore a11y-click-events-have-key-events -->
-                    <div
-                        role="button"
-                        tabindex="-1"
-                        class="circle"
-                        on:click={() => {
-                            project.content.classList.toggle("nascondi");
-                        }}
-                    >
-                        <span class="yellow box" />
-                    </div>
-                    <!-- svelte-ignore a11y-click-events-have-key-events -->
-                    <div
-                        class="circle"
-                        role="button"
-                        tabindex="-1"
-                        on:click={() => {
-                            toogleFullScreen(project);
-                        }}
-                    >
-                        <span class="green box" />
-                    </div>
-                    <!-- svelte-ignore a11y-click-events-have-key-events -->
-                    <div
-                        role="button"
-                        tabindex="-1"
-                        class="text-lg ml-4"
-                        on:click={() => {
-                            project.content.classList.remove("nascondi");
-                        }}
-                    >
-                        {project.title}
-                    </div>
-                </div>
-                <div class="card__content" bind:this={project.content}>
-                    {#if project.image == ""}
-                        <div />
-                    {:else}
-                        <img
-                            src={project.image}
-                            alt={project.title}
-                            class="rounded-lg shadow-lg mb-4"
-                        />
-                    {/if}
-                    <div>
-                        <p>{project.description}</p>
-                        <a href={project.url} class="link">{project.url}</a>
-                    </div>
-                </div>
+        <div class="card shadow-lg" use:transition={{ name: "scaling" }}>
+            <div class="tools">
+                <!-- svelte-ignore a11y-click-events-have-key-events -->
                 <div
-                    class="card__content tuttoSchermoContent !hidden"
-                    bind:this={project.contentFull}
+                    role="button"
+                    tabindex="-1"
+                    class="circle"
+                    on:click={() => {
+                        removeFromList(project);
+                    }}
                 >
-                    {#if project.image == ""}
-                        <div />
-                    {:else}
-                        <div class="carousel rounded-box w-full col-span-3">
-                            {#each project.images as image, i}
-                                <div
-                                    class="carousel-item w-full relative"
-                                    id="carousel_{project.title}_{i}"
-                                >
-                                    <img
-                                        src={image}
-                                        alt={project.title}
-                                        class="w-full"
-                                    />
-                                    <div
-                                        class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2"
-                                    >
-                                        {#if i == 0}
-                                            <a
-                                                href="#carousel_{project.title}_{project
-                                                    .images.length - 1}"
-                                                class="btn btn-circle glass"
-                                            >
-                                                <IconaArrowLeft />
-                                            </a>
-                                        {:else}
-                                            <a
-                                                href="#carousel_{project.title}_{i -
-                                                    1}"
-                                                class="btn btn-circle glass"
-                                            >
-                                                <IconaArrowLeft />
-                                            </a>
-                                        {/if}
-                                        {#if i == project.images.length - 1}
-                                            <a
-                                                href="#carousel_{project.title}_0"
-                                                class="btn btn-circle glass"
-                                            >
-                                                <IconaArrowRight />
-                                            </a>
-                                        {:else}
-                                            <a
-                                                href="#carousel_{project.title}_{i +
-                                                    1}"
-                                                class="btn btn-circle glass"
-                                            >
-                                                <IconaArrowRight />
-                                            </a>
-                                        {/if}
-                                    </div>
-                                </div>
-                            {/each}
-                        </div>
-                    {/if}
-                    <div class="col-span-2">
-                        <p>{project.fullDescription}</p>
-                        <a href={project.url} class="link">{project.url}</a>
-                    </div>
+                    <span class="red box" />
+                </div>
+                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                <div
+                    role="button"
+                    tabindex="-1"
+                    class="circle"
+                    on:click={() => {
+                        project.content.classList.toggle("nascondi");
+                    }}
+                >
+                    <span class="yellow box" />
+                </div>
+                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                <a
+                    class="circle"
+                    role="button"
+                    tabindex="-1"
+                    href="/projects/hello-world"
+                >
+                    <span class="green box" />
+                </a>
+                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                <div
+                    role="button"
+                    tabindex="-1"
+                    class="text-lg ml-4"
+                    on:click={() => {
+                        project.content.classList.remove("nascondi");
+                    }}
+                >
+                    {project.title}
                 </div>
             </div>
-        {/each}
+            <div class="card__content">
+                {#if project.image == ""}
+                    <div />
+                {:else}
+                    <img
+                        src={project.image}
+                        alt={project.title}
+                        class="rounded-lg shadow-lg mb-4"
+                    />
+                {/if}
+                <div>
+                    <p>{project.description}</p>
+                    <a href={project.url} class="link">{project.url}</a>
+                </div>
+            </div>
+            <div class="card__content tuttoSchermoContent !hidden">
+                {#if project.image == ""}
+                    <div />
+                {:else}
+                    <div class="carousel rounded-box w-full col-span-3">
+                        {#each project.images as image, i}
+                            <div
+                                class="carousel-item w-full relative"
+                                id="carousel_{project.title}_{i}"
+                            >
+                                <img
+                                    src={image}
+                                    alt={project.title}
+                                    class="w-full"
+                                />
+                                <div
+                                    class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2"
+                                >
+                                    {#if i == 0}
+                                        <a
+                                            href="#carousel_{project.title}_{project
+                                                .images.length - 1}"
+                                            class="btn btn-circle glass"
+                                        >
+                                            <IconaArrowLeft />
+                                        </a>
+                                    {:else}
+                                        <a
+                                            href="#carousel_{project.title}_{i -
+                                                1}"
+                                            class="btn btn-circle glass"
+                                        >
+                                            <IconaArrowLeft />
+                                        </a>
+                                    {/if}
+                                    {#if i == project.images.length - 1}
+                                        <a
+                                            href="#carousel_{project.title}_0"
+                                            class="btn btn-circle glass"
+                                        >
+                                            <IconaArrowRight />
+                                        </a>
+                                    {:else}
+                                        <a
+                                            href="#carousel_{project.title}_{i +
+                                                1}"
+                                            class="btn btn-circle glass"
+                                        >
+                                            <IconaArrowRight />
+                                        </a>
+                                    {/if}
+                                </div>
+                            </div>
+                        {/each}
+                    </div>
+                {/if}
+                <div class="col-span-2">
+                    <p>{project.fullDescription}</p>
+                    <a href={project.url} class="link">{project.url}</a>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -336,6 +356,16 @@
 <div class="fullscreen hidden" />
 
 <style>
+    :global(::view-transition-old(scaling)) {
+        transform: scale(0.5); /* Imposta la dimensione iniziale */
+        opacity: 0; /* Opzionale: puoi anche gestire l'opacità durante la transizione */
+    }
+
+    :global(::view-transition-new(scaling)) {
+        transform: scale(1); /* Imposta la dimensione finale */
+        opacity: 1; /* Opzionale: opacità finale */
+        transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out; /* Definisce la transizione */
+    }
     .card {
         height: min-content;
         margin: 0 auto 1rem auto;
